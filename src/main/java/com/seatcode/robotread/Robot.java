@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Robot {
 
-    private PolylineRoute polylineRoute;
+    private LatLng position;
 
-    public Robot(PolylineRoute polylineRoute) {
-        this.polylineRoute = polylineRoute;
+    public void start(PolylineRoute polylineRoute) {
+        move(polylineRoute);
     }
 
     public void reportMeasure() {
@@ -20,7 +20,15 @@ public class Robot {
         throw new UnsupportedOperationException();
     }
 
-    public List<LatLng> obtainPositon() {
-        return polylineRoute.decode();
+    public LatLng obtainPositon() {
+        return position;
+    }
+
+    private void move(PolylineRoute polylineRoute) {
+        List<LatLng> decodedPolyline = polylineRoute.decode();
+        for (LatLng latLng : decodedPolyline) {
+            position = latLng;
+        }
+
     }
 }
