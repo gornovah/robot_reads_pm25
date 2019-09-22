@@ -1,11 +1,7 @@
 package com.seatcode.robotread;
 
-import com.seatcode.robotread.ReportPrinter;
-import com.seatcode.robotread.Robot;
-import org.junit.jupiter.api.Test;
 
-
-import java.sql.Timestamp;
+import org.junit.Test;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
