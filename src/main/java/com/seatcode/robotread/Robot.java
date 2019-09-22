@@ -2,25 +2,37 @@ package com.seatcode.robotread;
 
 import com.google.maps.model.LatLng;
 
+import java.time.Instant;
 import java.util.List;
 
 public class Robot {
 
     private LatLng position;
+    private ReadLevel readLevel;
+    private MeasureRepository measureRepository;
+
+    public Robot(ReadLevel readLevel, MeasureRepository measureRepository) {
+        this.readLevel = readLevel;
+        this.measureRepository = measureRepository;
+    }
 
     public void start(PolylineRoute polylineRoute) {
         move(polylineRoute);
+    }
+
+    public void readPm25Level() {
+        String measure = readLevel.execute();
+        LatLng position = position();
+        long instant = Instant.now().toEpochMilli();
+        Record record = new Record(measure, position, instant);
+        measureRepository.save(record);
     }
 
     public void reportMeasure() {
         throw new UnsupportedOperationException();
     }
 
-    public void readLevel(Position position, Clock timestamp) {
-        throw new UnsupportedOperationException();
-    }
-
-    public LatLng obtainPositon() {
+    public LatLng position() {
         return position;
     }
 
@@ -29,6 +41,5 @@ public class Robot {
         for (LatLng latLng : decodedPolyline) {
             position = latLng;
         }
-
     }
 }
