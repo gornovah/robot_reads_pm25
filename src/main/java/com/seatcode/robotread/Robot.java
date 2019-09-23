@@ -10,10 +10,12 @@ public class Robot {
     private LatLng position;
     private ReadLevel readLevel;
     private MeasureRepository measureRepository;
+    private ReportPrinter reportPrinter;
 
-    public Robot(ReadLevel readLevel, MeasureRepository measureRepository) {
+    public Robot(ReadLevel readLevel, MeasureRepository measureRepository, ReportPrinter reportPrinter) {
         this.readLevel = readLevel;
         this.measureRepository = measureRepository;
+        this.reportPrinter = reportPrinter;
     }
 
     public void start(PolylineRoute polylineRoute) {
@@ -29,7 +31,8 @@ public class Robot {
     }
 
     public void reportMeasure() {
-        throw new UnsupportedOperationException();
+        String average = measureRepository.load();
+        reportPrinter.report(average);
     }
 
     public LatLng position() {

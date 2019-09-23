@@ -1,7 +1,6 @@
 package com.seatcode.robotread;
 
 
-import com.google.maps.model.LatLng;
 import org.junit.Test;
 
 import static org.mockito.BDDMockito.given;
@@ -25,7 +24,6 @@ public class RobotReadFeature {
 
         ReportPrinter reportPrinter = mock(ReportPrinter.class);
         Robot robot = mock(Robot.class);
-        LatLng position = new LatLng(51.23241,-0.1223 );
         PolylineRoute polylineRoute = new PolylineRoute(polylineInput);
 
         Clock timestamp = mock(Clock.class);
