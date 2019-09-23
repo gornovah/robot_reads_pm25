@@ -1,5 +1,6 @@
 package com.seatcode.robotread.repository;
 
+import com.seatcode.robotread.Average;
 import com.seatcode.robotread.Record;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class MeasureRepository {
         records.put(record.getId(), record);
     }
 
-    public Record load() {
+    public Average load() {
         throw new UnsupportedOperationException();
     }
 }

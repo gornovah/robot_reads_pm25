@@ -23,7 +23,7 @@ public class MeasureRepositoryShould {
     public void save_read_pm25_level() {
         HashMap<Long, Record> map = new HashMap<>();
         LatLng position = new LatLng(51.23241, -0.1223);
-        String measure = "USG";
+        int measure = 140;
         long instant = 1528106219;
         Record record = new Record(id, measure, position, instant, "robot");
         MeasureRepository measureRepository = new MeasureRepository(map);
@@ -33,10 +33,10 @@ public class MeasureRepositoryShould {
         assertThat(map.containsKey(id)).isTrue();
     }
     
-  /*  @Test
+    @Test
     public void load_the_average_of_records() {
 
 
-    }*/
+    }
 
 }

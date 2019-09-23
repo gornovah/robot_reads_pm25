@@ -31,7 +31,7 @@ public class RobotReadFeature {
     private PolylineRoute polylineRoute;
     private Robot robot;
     private LatLng position;
-    private String measure ;
+    private int measure;
     private long instant;
     private Console console;
     private ReportFormatter reportFormatter;
@@ -46,14 +46,14 @@ public class RobotReadFeature {
         readLevel = new ReadLevel();
         polylineRoute = new PolylineRoute(polylineInput);
         position = new LatLng(51.23241, -0.1223);
-        measure = "USG";
+        measure = 140;
         instant = 1528106219;
     }
 
     @Test
     public void return_the_report_of_new_readings() {
 
-        Record record = new Record(null, measure, position, instant, "robot");
+        Average average = new Average(measure, position, instant, "robot");
         given(timestamp.timestampAsString()).willReturn("1528106219");
 
         robot = new Robot(readLevel, measureRepository, reportPrinter);
@@ -62,7 +62,6 @@ public class RobotReadFeature {
         robot.readPm25Level();
         robot.reportMeasure();
 
-
-        verify(reportPrinter).report(record);
+        verify(reportPrinter).report(average);
     }
 }

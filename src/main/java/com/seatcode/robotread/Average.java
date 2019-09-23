@@ -4,15 +4,15 @@ import com.google.maps.model.LatLng;
 
 import java.util.StringJoiner;
 
-public class Record {
-    private final Long id;
+public class Average {
+
     private final long timestamp;
     private final LatLng location;
     private final int level;
     private final String source;
 
-    public Record(Long id, int level, LatLng location, long timestamp, String source) {
-        this.id = id;
+    public Average(int level, LatLng location, long timestamp, String source) {
+
         this.level = level;
         this.location = location;
         this.timestamp = timestamp;
@@ -29,10 +29,6 @@ public class Record {
 
     public long getTimestamp() {
         return timestamp;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getSource() {

@@ -19,7 +19,7 @@ public class RobotShould {
     private ReportPrinter reportPrinter;
     private Robot robot;
     private LatLng position;
-    private String measure ;
+    private int measure;
     private long instant;
 
     @Before
@@ -30,7 +30,7 @@ public class RobotShould {
         reportPrinter = mock(ReportPrinter.class);
         robot = new Robot(readLevel, measureRepository, reportPrinter);
         position = new LatLng(51.23241, -0.1223);
-        measure = "USG";
+        measure = 140;
         instant = 1528106219;
     }
 
@@ -50,7 +50,7 @@ public class RobotShould {
         robot.readPm25Level();
         verify(readLevel).execute();
     }
-    
+
     @Test
     public void save_reading_pm25_level() {
 
@@ -60,17 +60,17 @@ public class RobotShould {
 
         verify(measureRepository).save(argumentCaptor.capture());
     }
-    
+
     @Test
     public void report_the_readings_of_pm25_level() {
-        Record record = new Record(null, measure, position, instant, "robot");
-        given(measureRepository.load()).willReturn(record);
+        Average average = new Average(measure, position, instant, "robot");
+        given(measureRepository.load()).willReturn(average);
 
         robot.start(polylineRoute);
         robot.reportMeasure();
 
         verify(measureRepository).load();
-        verify(reportPrinter).report(record);
+        verify(reportPrinter).report(average);
     }
 
 }

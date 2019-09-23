@@ -1,18 +1,17 @@
 package com.seatcode.robotread;
 
-import com.seatcode.robotread.domain.exceptions.RobotException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-
-import java.io.IOException;
+import org.json.simple.JSONObject;
 
 public class ReportFormatter {
-    public String execute(Record record) {
-        ObjectWriter ow = new ObjectMapper().writer();
-        try {
-            return ow.writeValueAsString(record);
-        } catch (IOException e) {
-            throw new RobotException("Report formatter has an error" + e.getMessage());
-        }
+    public String execute(Average average, String value) {
+        JSONObject resultAverageJson = new JSONObject();
+        resultAverageJson.put("timestamp", average.getTimestamp());
+        JSONObject locationsJson = new JSONObject();
+        locationsJson.put("lat", average.getLocation().lat);
+        locationsJson.put("lng", average.getLocation().lng);
+        resultAverageJson.put("location", locationsJson);
+        resultAverageJson.put("level", value);
+        resultAverageJson.put("source", average.getSource());
+        return resultAverageJson.toJSONString();
     }
 }

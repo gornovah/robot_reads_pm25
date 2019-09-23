@@ -24,7 +24,7 @@ public class Robot {
     }
 
     public void readPm25Level() {
-        String measure = readLevel.execute();
+        int measure = readLevel.execute();
         LatLng position = position();
         long instant = Instant.now().toEpochMilli();
         Record record = new Record(null, measure, position, instant, "robot");
@@ -32,7 +32,7 @@ public class Robot {
     }
 
     public void reportMeasure() {
-        Record average = measureRepository.load();
+        Average average = measureRepository.load();
         reportPrinter.report(average);
     }
 
