@@ -1,4 +1,4 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.domain.model;
 
 public class Clock {
     public String timestampAsString() {

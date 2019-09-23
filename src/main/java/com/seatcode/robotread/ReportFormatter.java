@@ -1,5 +1,6 @@
 package com.seatcode.robotread;
 
+import com.seatcode.robotread.domain.exceptions.RobotException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 

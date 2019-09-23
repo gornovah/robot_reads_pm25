@@ -1,6 +1,7 @@
 package com.seatcode.robotread;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -62,7 +63,7 @@ public class RobotShould {
     
     @Test
     public void report_the_readings_of_pm25_level() {
-        Record record = new Record(measure, position, instant, "robot");
+        Record record = new Record(null, measure, position, instant, "robot");
         given(measureRepository.load()).willReturn(record);
 
         robot.start(polylineRoute);

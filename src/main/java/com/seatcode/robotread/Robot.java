@@ -1,6 +1,7 @@
 package com.seatcode.robotread;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.repository.MeasureRepository;
 
 import java.time.Instant;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Robot {
         String measure = readLevel.execute();
         LatLng position = position();
         long instant = Instant.now().toEpochMilli();
-        Record record = new Record(measure, position, instant, "robot");
+        Record record = new Record(null, measure, position, instant, "robot");
         measureRepository.save(record);
     }
 

@@ -1,6 +1,7 @@
 package com.seatcode.robotread;
 
 public class ReportPrinter {
+
     private Console console;
     private ReportFormatter reportFormatter;
 

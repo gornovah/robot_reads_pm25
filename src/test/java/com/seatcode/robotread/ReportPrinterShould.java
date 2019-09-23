@@ -16,7 +16,7 @@ public class ReportPrinterShould {
         LatLng position = new LatLng(51.23241, -0.1223);
         String measure = "USG";
         long instant = 1528106219;
-        Record record = new Record(measure, position, instant, "robot");
+        Record record = new Record(null, measure, position, instant, "robot");
 
         reportPrinter.report(record);
 

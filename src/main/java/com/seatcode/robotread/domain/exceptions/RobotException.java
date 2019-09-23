@@ -1,4 +1,4 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.domain.exceptions;
 
 /**
  * {@code RuntimeException} that is thrown when an error occurs during a request. An

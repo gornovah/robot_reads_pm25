@@ -2,8 +2,12 @@ package com.seatcode.robotread;
 
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.domain.model.Clock;
+import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -29,13 +33,17 @@ public class RobotReadFeature {
     private LatLng position;
     private String measure ;
     private long instant;
+    private Console console;
+    private ReportFormatter reportFormatter;
+    private HashMap<Long, Record> map;
 
     @Before
     public void setUp() throws Exception {
-        reportPrinter = mock(ReportPrinter.class);
+        reportPrinter = new ReportPrinter(console, reportFormatter);
         timestamp = mock(Clock.class);
-        measureRepository = mock(MeasureRepository.class);
-        readLevel = mock(ReadLevel.class);
+        map = new HashMap<>();
+        measureRepository = new MeasureRepository(map);
+        readLevel = new ReadLevel();
         polylineRoute = new PolylineRoute(polylineInput);
         position = new LatLng(51.23241, -0.1223);
         measure = "USG";
@@ -45,10 +53,10 @@ public class RobotReadFeature {
     @Test
     public void return_the_report_of_new_readings() {
 
+        Record record = new Record(null, measure, position, instant, "robot");
         given(timestamp.timestampAsString()).willReturn("1528106219");
 
         robot = new Robot(readLevel, measureRepository, reportPrinter);
-        Record record = new Record(measure, position, instant, "robot");
 
         robot.start(polylineRoute);
         robot.readPm25Level();
