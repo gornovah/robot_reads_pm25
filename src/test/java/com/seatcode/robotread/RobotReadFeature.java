@@ -7,7 +7,8 @@ import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.time.Instant;
+import java.util.LinkedHashMap;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -35,15 +36,19 @@ public class RobotReadFeature {
     private long instant;
     private Console console;
     private ReportFormatter reportFormatter;
-    private HashMap<Long, Record> map;
+    private LinkedHashMap<Long, Record> map;
+    private Clock clock;
 
     @Before
     public void setUp() throws Exception {
+        console = mock(Console.class);
+        reportFormatter = new ReportFormatter();
         reportPrinter = new ReportPrinter(console, reportFormatter);
         timestamp = mock(Clock.class);
-        map = new HashMap<>();
-        measureRepository = new MeasureRepository(map);
-        readLevel = new ReadLevel();
+        map = new LinkedHashMap<>();
+        clock = mock(Clock.class);
+        measureRepository = new MeasureRepository(map, clock);
+        readLevel = mock(ReadLevel.class);
         polylineRoute = new PolylineRoute(polylineInput);
         position = new LatLng(51.23241, -0.1223);
         measure = 140;
@@ -53,8 +58,9 @@ public class RobotReadFeature {
     @Test
     public void return_the_report_of_new_readings() {
 
-        Average average = new Average(measure, position, instant, "robot");
         given(timestamp.timestampAsString()).willReturn("1528106219");
+        given(clock.instantNow()).willReturn(Instant.ofEpochMilli(1528106219));
+        given(readLevel.execute()).willReturn(90);
 
         robot = new Robot(readLevel, measureRepository, reportPrinter);
 
@@ -62,6 +68,7 @@ public class RobotReadFeature {
         robot.readPm25Level();
         robot.reportMeasure();
 
-        verify(reportPrinter).report(average);
+        verify(console).print("{\"level\":\"MODERATE\",\"location\":{\"lng\":-0.16851000000000002,\"lat\":51.56526},\"source\":\"robot\",\"timestamp\":1528106219}");
+
     }
 }
