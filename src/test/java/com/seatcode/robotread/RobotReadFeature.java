@@ -1,6 +1,8 @@
 package com.seatcode.robotread;
 
 
+import com.google.maps.model.LatLng;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.BDDMockito.given;
@@ -18,29 +20,41 @@ public class RobotReadFeature {
             "a@PyB`@yDDc@e@K{Bi@oA_@w@]m@_@]QkBoAwC{BmAeAo@s@uAoB_AaBmAwCa@mAo@iCgAwFg@iD\n" +
             "q@}G[uEU_GBuP@cICmA?eI?qCB{FBkCI}BOyCMiAGcAC{AN{YFqD^}FR}CNu@JcAHu@b@_E`@}DVsB^mBTsAQ\n" +
             "KkCmAg@[YQOIOvAi@[m@e@s@g@GKCKAEJIn@g@GYGIc@ScBoAf@{A`@uAlBfAG`@";
+    private ReportPrinter reportPrinter;
+    private Clock timestamp;
+    private MeasureRepository measureRepository;
+    private ReadLevel readLevel;
+    private PolylineRoute polylineRoute;
+    private Robot robot;
+    private LatLng position;
+    private String measure ;
+    private long instant;
+
+    @Before
+    public void setUp() throws Exception {
+        reportPrinter = mock(ReportPrinter.class);
+        timestamp = mock(Clock.class);
+        measureRepository = mock(MeasureRepository.class);
+        readLevel = mock(ReadLevel.class);
+        polylineRoute = new PolylineRoute(polylineInput);
+        position = new LatLng(51.23241, -0.1223);
+        measure = "USG";
+        instant = 1528106219;
+    }
 
     @Test
     public void return_the_report_of_new_readings() {
 
-        ReportPrinter reportPrinter = mock(ReportPrinter.class);
-        Robot robot = mock(Robot.class);
-        PolylineRoute polylineRoute = new PolylineRoute(polylineInput);
-
-        Clock timestamp = mock(Clock.class);
         given(timestamp.timestampAsString()).willReturn("1528106219");
+
+        robot = new Robot(readLevel, measureRepository, reportPrinter);
+        Record record = new Record(measure, position, instant, "robot");
 
         robot.start(polylineRoute);
         robot.readPm25Level();
         robot.reportMeasure();
 
-        verify(reportPrinter).report("{ \n" +
-                "   timestamp:1528106219,\n" +
-                "   location:{ \n" +
-                "      lat:51.23241,\n" +
-                "      lng:-0.1223\n" +
-                "   },\n" +
-                "   level:\"USG\",\n" +
-                "   source:\"robot\"\n" +
-                "}");
+
+        verify(reportPrinter).report(record);
     }
 }

@@ -43,6 +43,11 @@
             <artifactId>google-maps-services</artifactId>
             <version>0.9.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
+        </dependency>
 
     </dependencies>
 

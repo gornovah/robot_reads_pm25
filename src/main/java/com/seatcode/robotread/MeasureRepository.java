@@ -5,7 +5,7 @@ public class MeasureRepository {
         throw new UnsupportedOperationException();
     }
 
-    public String load() {
+    public Record load() {
         throw new UnsupportedOperationException();
     }
 }

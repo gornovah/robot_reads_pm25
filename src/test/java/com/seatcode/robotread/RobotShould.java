@@ -1,5 +1,6 @@
 package com.seatcode.robotread;
 
+import com.google.maps.model.LatLng;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -14,16 +15,22 @@ public class RobotShould {
     private PolylineRoute polylineRoute;
     private ReadLevel readLevel;
     private MeasureRepository measureRepository;
-    private ReportPrinter reporPrinter;
+    private ReportPrinter reportPrinter;
     private Robot robot;
+    private LatLng position;
+    private String measure ;
+    private long instant;
 
     @Before
     public void setUp() throws Exception {
         polylineRoute = new PolylineRoute("{bp{F}vbLgIeP");
         readLevel = mock(ReadLevel.class);
         measureRepository = mock(MeasureRepository.class);
-        reporPrinter = mock(ReportPrinter.class);
-        robot = new Robot(readLevel, measureRepository, reporPrinter);
+        reportPrinter = mock(ReportPrinter.class);
+        robot = new Robot(readLevel, measureRepository, reportPrinter);
+        position = new LatLng(51.23241, -0.1223);
+        measure = "USG";
+        instant = 1528106219;
     }
 
     @Test
@@ -55,14 +62,14 @@ public class RobotShould {
     
     @Test
     public void report_the_readings_of_pm25_level() {
-        String text = "{timestamp:1528106219,location:{lat:51.23241,lng:-0.1223},level:\"USG\",source:\"robot\"}";
-        given(measureRepository.load()).willReturn("{timestamp:1528106219,location:{lat:51.23241,lng:-0.1223},level:\"USG\",source:\"robot\"}");
+        Record record = new Record(measure, position, instant, "robot");
+        given(measureRepository.load()).willReturn(record);
 
         robot.start(polylineRoute);
         robot.reportMeasure();
 
         verify(measureRepository).load();
-        verify(reporPrinter).report(text);
+        verify(reportPrinter).report(record);
     }
 
 }

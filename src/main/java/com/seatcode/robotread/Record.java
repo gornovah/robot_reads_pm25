@@ -2,16 +2,45 @@ package com.seatcode.robotread;
 
 import com.google.maps.model.LatLng;
 
+import java.util.StringJoiner;
+
 public class Record {
-    private final String measure;
-    private final LatLng position;
-    private final long instant;
+    private final long timestamp;
+    private final LatLng location;
+    private final String level;
+    private final String source;
 
-    public Record(String measure, LatLng position, long instant) {
+    public Record(String level, LatLng location, long timestamp, String source) {
 
-        this.measure = measure;
-        this.position = position;
-        this.instant = instant;
+        this.level = level;
+        this.location = location;
+        this.timestamp = timestamp;
+        this.source = source;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public LatLng getLocation() {
+        return location;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(",", "{", "}")
+                .add("timestamp:" + timestamp)
+                .add("location:{lat:" + location.lat + "," + "lng:" + location.lng + "}")
+                .add("level:" + level + "'")
+                .add("source:'" + source + "'")
+                .toString();
+    }
 }
