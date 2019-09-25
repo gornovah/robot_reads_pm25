@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 public class MeasureRepository {
 
     private final LinkedHashMap<Long, Record> records;
-    private Clock clock;
+    private final Clock clock;
 
-    public MeasureRepository(LinkedHashMap<Long, Record> records, Clock clock) {
+    public MeasureRepository(Map<Long, Record> records, Clock clock) {
 
-        this.records = records;
+        this.records = (LinkedHashMap<Long, Record>) records;
         this.clock = clock;
     }
 

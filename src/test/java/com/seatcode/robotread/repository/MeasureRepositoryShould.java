@@ -21,7 +21,7 @@ public class MeasureRepositoryShould {
     private long id;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         id = 1L;
     }
 

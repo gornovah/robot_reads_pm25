@@ -11,14 +11,14 @@ import com.seatcode.robotread.repository.MeasureRepository;
 import java.time.Instant;
 import java.util.List;
 
-public class Robot {
+public class ReadMeasure {
 
     private LatLng position;
-    private ReadLevel readLevel;
-    private MeasureRepository measureRepository;
-    private ReportPrinter reportPrinter;
+    private final ReadLevel readLevel;
+    private final MeasureRepository measureRepository;
+    private final ReportPrinter reportPrinter;
 
-    public Robot(ReadLevel readLevel, MeasureRepository measureRepository, ReportPrinter reportPrinter) {
+    public ReadMeasure(ReadLevel readLevel, MeasureRepository measureRepository, ReportPrinter reportPrinter) {
         this.readLevel = readLevel;
         this.measureRepository = measureRepository;
         this.reportPrinter = reportPrinter;
@@ -30,7 +30,6 @@ public class Robot {
 
     public void readPm25Level() {
         int measure = readLevel.execute();
-        LatLng position = position();
         long instant = Instant.now().toEpochMilli();
         Record record = new Record(null, measure, position, instant, "robot");
         measureRepository.save(record);
@@ -51,4 +50,6 @@ public class Robot {
             position = latLng;
         }
     }
+
+
 }

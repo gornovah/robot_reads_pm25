@@ -7,14 +7,13 @@ import java.util.List;
 
 public class PolylineDecoder {
 
-    private String polyline;
+    private final String polyline;
 
     public PolylineDecoder(String polyline) {
         this.polyline = polyline;
     }
 
     public List<LatLng> decode() {
-        PolylineEncoding polylineEncoding = new PolylineEncoding();
-        return polylineEncoding.decode(polyline);
+        return PolylineEncoding.decode(polyline);
     }
 }

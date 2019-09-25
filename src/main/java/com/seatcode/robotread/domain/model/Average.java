@@ -2,8 +2,6 @@ package com.seatcode.robotread.domain.model;
 
 import com.google.maps.model.LatLng;
 
-import java.util.StringJoiner;
-
 public class Average {
 
     private final long timestamp;
@@ -35,13 +33,4 @@ public class Average {
         return source;
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(",", "{", "}")
-                .add("timestamp:" + timestamp)
-                .add("location:{lat:" + location.lat + "," + "lng:" + location.lng + "}")
-                .add("level:" + level + "'")
-                .add("source:'" + source + "'")
-                .toString();
-    }
 }

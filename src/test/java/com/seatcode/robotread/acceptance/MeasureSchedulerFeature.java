@@ -1,13 +1,12 @@
 package com.seatcode.robotread.acceptance;
 
+import com.seatcode.robotread.actions.ReadMeasure;
 import com.seatcode.robotread.domain.services.MeasureScheduler;
-import com.seatcode.robotread.actions.Robot;
 import org.junit.Test;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class MeasureSchedulerFeature {
@@ -19,9 +18,9 @@ public class MeasureSchedulerFeature {
     @Test
     public void read_every_100_meter() {
 
-        Robot robot = mock(Robot.class);
+        ReadMeasure readMeasure = mock(ReadMeasure.class);
         ScheduledExecutorService scheduledExecutorService = mock(ScheduledExecutorService.class);
-        MeasureScheduler measureScheduler = new MeasureScheduler(robot, scheduledExecutorService);
+        MeasureScheduler measureScheduler = new MeasureScheduler(readMeasure, scheduledExecutorService);
 
         measureScheduler.scheduledRead();
 
@@ -33,9 +32,9 @@ public class MeasureSchedulerFeature {
 
     @Test
     public void report_every_15_minutes() {
-        Robot robot = mock(Robot.class);
+        ReadMeasure readMeasure = mock(ReadMeasure.class);
         ScheduledExecutorService scheduledExecutorService = mock(ScheduledExecutorService.class);
-        MeasureScheduler measureScheduler = new MeasureScheduler(robot, scheduledExecutorService);
+        MeasureScheduler measureScheduler = new MeasureScheduler(readMeasure, scheduledExecutorService);
 
         measureScheduler.scheduleReport();
 

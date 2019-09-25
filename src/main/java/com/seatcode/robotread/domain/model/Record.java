@@ -2,8 +2,6 @@ package com.seatcode.robotread.domain.model;
 
 import com.google.maps.model.LatLng;
 
-import java.util.StringJoiner;
-
 public class Record {
     private final Long id;
     private final long timestamp;
@@ -39,13 +37,4 @@ public class Record {
         return source;
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(",", "{", "}")
-                .add("timestamp:" + timestamp)
-                .add("location:{lat:" + location.lat + "," + "lng:" + location.lng + "}")
-                .add("level:" + level + "'")
-                .add("source:'" + source + "'")
-                .toString();
-    }
 }

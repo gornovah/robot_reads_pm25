@@ -1,14 +1,13 @@
 package com.seatcode.robotread.acceptance;
 
 
-import com.google.maps.model.LatLng;
-import com.seatcode.robotread.actions.Robot;
+import com.seatcode.robotread.actions.ReadMeasure;
+import com.seatcode.robotread.api.Console;
 import com.seatcode.robotread.api.ReportFormatter;
 import com.seatcode.robotread.api.decoder.PolylineDecoder;
-import com.seatcode.robotread.domain.services.ReportPrinter;
 import com.seatcode.robotread.domain.model.Clock;
 import com.seatcode.robotread.domain.model.Record;
-import com.seatcode.robotread.api.Console;
+import com.seatcode.robotread.domain.services.ReportPrinter;
 import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
@@ -21,9 +20,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class RobotReadFeature {
+public class ReadMeasureFeature {
 
-    String polylineInput = "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGu\n" +
+    private final String polylineInput = "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGu\n" +
             "AD_@FKb@MTUX]Le@^kBVcAVo@Ta@|EaFh@m@FWaA{DCo@q@mCm@cC{A_GWeA}@sGSeAcA_EOSMa\n" +
             "@}A_GsAwFkAiEoAaFaBoEGo@]_AIWW{AQyAUyBQqAI_BFkEd@aHZcDlAyJLaBPqDDeD?mBEiA}@F]yKWqGSkI\n" +
             "CmCIeZIuZi@_Sw@{WgAoXS{DOcAWq@KQGIFQDGn@Y`@MJEFIHyAVQVOJGHgFRJBBCCSKBcAKoACyA?m@^y\n" +
@@ -37,17 +36,14 @@ public class RobotReadFeature {
     private MeasureRepository measureRepository;
     private ReadLevel readLevel;
     private PolylineDecoder polylineDecoder;
-    private Robot robot;
-    private LatLng position;
-    private int measure;
-    private long instant;
+    private ReadMeasure readMeasure;
     private Console console;
     private ReportFormatter reportFormatter;
     private LinkedHashMap<Long, Record> map;
     private Clock clock;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         console = mock(Console.class);
         reportFormatter = new ReportFormatter();
         reportPrinter = new ReportPrinter(console, reportFormatter);
@@ -57,9 +53,6 @@ public class RobotReadFeature {
         measureRepository = new MeasureRepository(map, clock);
         readLevel = mock(ReadLevel.class);
         polylineDecoder = new PolylineDecoder(polylineInput);
-        position = new LatLng(51.23241, -0.1223);
-        measure = 140;
-        instant = 1528106219;
     }
 
     @Test
@@ -69,11 +62,11 @@ public class RobotReadFeature {
         given(clock.instantNow()).willReturn(Instant.ofEpochMilli(1528106219));
         given(readLevel.execute()).willReturn(90);
 
-        robot = new Robot(readLevel, measureRepository, reportPrinter);
+        readMeasure = new ReadMeasure(readLevel, measureRepository, reportPrinter);
 
-        robot.start(polylineDecoder);
-        robot.readPm25Level();
-        robot.reportMeasure();
+        readMeasure.start(polylineDecoder);
+        readMeasure.readPm25Level();
+        readMeasure.reportMeasure();
 
         verify(console).print("{\"level\":\"MODERATE\",\"location\":{\"lng\":-0.16851000000000002,\"lat\":51.56526},\"source\":\"robot\",\"timestamp\":1528106219}");
 

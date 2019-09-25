@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public class ReportPrinter {
 
-    private Console console;
-    private ReportFormatter reportFormatter;
+    private final Console console;
+    private final ReportFormatter reportFormatter;
 
     public ReportPrinter(Console console, ReportFormatter reportFormatter) {
         this.console = console;
@@ -18,7 +18,7 @@ public class ReportPrinter {
 
     public void report(Average average) {
         LevelPm25 levelPm25 = new LevelPm25();
-        String value = levelPm25.obtainValue(average.getLevel());
+        String value = levelPm25.fromLevelToRangeValue(average.getLevel());
         String report = reportFormatter.parseToJson(average, value);
         console.print(report);
     }
@@ -34,14 +34,14 @@ public class ReportPrinter {
         private final int minValue;
         private final int maxValue;
 
-        private Range(int min, int max) {
+        Range(int min, int max) {
             this.minValue = min;
             this.maxValue = max;
         }
 
-        public static Range getFrom(int score) {
+        private static Range getFrom(int score) {
             return Arrays.asList(Range.values()).stream()
-                    .filter(t -> (score >= t.minValue && score <= t.maxValue))
+                    .filter(t -> score >= t.minValue && score <= t.maxValue)
                     .findAny()
                     .orElse(OTHER);
         }
@@ -49,7 +49,7 @@ public class ReportPrinter {
 
     private class LevelPm25 {
 
-        public String obtainValue(int level) {
+        private String fromLevelToRangeValue(int level) {
             switch (Range.getFrom(level)) {
                 case GOOD:
                     return "GOOD";

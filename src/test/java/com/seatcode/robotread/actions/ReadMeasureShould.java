@@ -1,7 +1,6 @@
 package com.seatcode.robotread.actions;
 
 import com.google.maps.model.LatLng;
-import com.seatcode.robotread.actions.Robot;
 import com.seatcode.robotread.api.decoder.PolylineDecoder;
 import com.seatcode.robotread.domain.services.ReportPrinter;
 import com.seatcode.robotread.domain.model.Average;
@@ -17,24 +16,24 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class RobotShould {
+public class ReadMeasureShould {
 
     private PolylineDecoder polylineDecoder;
     private ReadLevel readLevel;
     private MeasureRepository measureRepository;
     private ReportPrinter reportPrinter;
-    private Robot robot;
+    private ReadMeasure readMeasure;
     private LatLng position;
     private int measure;
     private long instant;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         polylineDecoder = new PolylineDecoder("{bp{F}vbLgIeP");
         readLevel = mock(ReadLevel.class);
         measureRepository = mock(MeasureRepository.class);
         reportPrinter = mock(ReportPrinter.class);
-        robot = new Robot(readLevel, measureRepository, reportPrinter);
+        readMeasure = new ReadMeasure(readLevel, measureRepository, reportPrinter);
         position = new LatLng(51.23241, -0.1223);
         measure = 140;
         instant = 1528106219;
@@ -42,26 +41,26 @@ public class RobotShould {
 
     @Test
     public void move_through_polyline() {
-        robot.start(polylineDecoder);
+        readMeasure.start(polylineDecoder);
 
-        String position = robot.position().toString();
+        String position = readMeasure.position().toString();
         assertThat(position).isEqualTo("41.37698000,2.15186000");
     }
 
     @Test
     public void read_pm25_level() {
 
-        robot.start(polylineDecoder);
+        readMeasure.start(polylineDecoder);
 
-        robot.readPm25Level();
+        readMeasure.readPm25Level();
         verify(readLevel).execute();
     }
 
     @Test
     public void save_reading_pm25_level() {
 
-        robot.start(polylineDecoder);
-        robot.readPm25Level();
+        readMeasure.start(polylineDecoder);
+        readMeasure.readPm25Level();
         ArgumentCaptor<Record> argumentCaptor = ArgumentCaptor.forClass(Record.class);
 
         verify(measureRepository).save(argumentCaptor.capture());
@@ -69,14 +68,16 @@ public class RobotShould {
 
     @Test
     public void report_the_readings_of_pm25_level() {
-        Average average = new Average(measure, position, instant, "robot");
+        Average average = new Average(measure, position, instant, "readMeasure");
         given(measureRepository.load()).willReturn(average);
 
-        robot.start(polylineDecoder);
-        robot.reportMeasure();
+        readMeasure.start(polylineDecoder);
+        readMeasure.reportMeasure();
 
         verify(measureRepository).load();
         verify(reportPrinter).report(average);
     }
+
+    
 
 }
