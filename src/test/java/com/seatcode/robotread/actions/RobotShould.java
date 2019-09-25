@@ -1,6 +1,12 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.actions;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.actions.Robot;
+import com.seatcode.robotread.api.decoder.PolylineDecoder;
+import com.seatcode.robotread.domain.services.ReportPrinter;
+import com.seatcode.robotread.domain.model.Average;
+import com.seatcode.robotread.domain.model.Record;
+import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 public class RobotShould {
 
-    private PolylineRoute polylineRoute;
+    private PolylineDecoder polylineDecoder;
     private ReadLevel readLevel;
     private MeasureRepository measureRepository;
     private ReportPrinter reportPrinter;
@@ -24,7 +30,7 @@ public class RobotShould {
 
     @Before
     public void setUp() throws Exception {
-        polylineRoute = new PolylineRoute("{bp{F}vbLgIeP");
+        polylineDecoder = new PolylineDecoder("{bp{F}vbLgIeP");
         readLevel = mock(ReadLevel.class);
         measureRepository = mock(MeasureRepository.class);
         reportPrinter = mock(ReportPrinter.class);
@@ -36,7 +42,7 @@ public class RobotShould {
 
     @Test
     public void move_through_polyline() {
-        robot.start(polylineRoute);
+        robot.start(polylineDecoder);
 
         String position = robot.position().toString();
         assertThat(position).isEqualTo("41.37698000,2.15186000");
@@ -45,7 +51,7 @@ public class RobotShould {
     @Test
     public void read_pm25_level() {
 
-        robot.start(polylineRoute);
+        robot.start(polylineDecoder);
 
         robot.readPm25Level();
         verify(readLevel).execute();
@@ -54,7 +60,7 @@ public class RobotShould {
     @Test
     public void save_reading_pm25_level() {
 
-        robot.start(polylineRoute);
+        robot.start(polylineDecoder);
         robot.readPm25Level();
         ArgumentCaptor<Record> argumentCaptor = ArgumentCaptor.forClass(Record.class);
 
@@ -66,7 +72,7 @@ public class RobotShould {
         Average average = new Average(measure, position, instant, "robot");
         given(measureRepository.load()).willReturn(average);
 
-        robot.start(polylineRoute);
+        robot.start(polylineDecoder);
         robot.reportMeasure();
 
         verify(measureRepository).load();

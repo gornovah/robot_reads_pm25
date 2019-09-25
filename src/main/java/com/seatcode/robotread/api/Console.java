@@ -1,4 +1,4 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.api;
 
 public class Console {
 

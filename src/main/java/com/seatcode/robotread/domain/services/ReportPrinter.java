@@ -1,4 +1,8 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.domain.services;
+
+import com.seatcode.robotread.api.ReportFormatter;
+import com.seatcode.robotread.domain.model.Average;
+import com.seatcode.robotread.api.Console;
 
 import java.util.Arrays;
 
@@ -15,7 +19,7 @@ public class ReportPrinter {
     public void report(Average average) {
         LevelPm25 levelPm25 = new LevelPm25();
         String value = levelPm25.obtainValue(average.getLevel());
-        String report = reportFormatter.execute(average,value);
+        String report = reportFormatter.parseToJson(average, value);
         console.print(report);
     }
 
@@ -46,7 +50,7 @@ public class ReportPrinter {
     private class LevelPm25 {
 
         public String obtainValue(int level) {
-            switch (Range.getFrom(level)){
+            switch (Range.getFrom(level)) {
                 case GOOD:
                     return "GOOD";
                 case MODERATE:

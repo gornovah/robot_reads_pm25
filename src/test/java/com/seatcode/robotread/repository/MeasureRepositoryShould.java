@@ -1,8 +1,8 @@
 package com.seatcode.robotread.repository;
 
 import com.google.maps.model.LatLng;
-import com.seatcode.robotread.Average;
-import com.seatcode.robotread.Record;
+import com.seatcode.robotread.domain.model.Average;
+import com.seatcode.robotread.domain.model.Record;
 import com.seatcode.robotread.domain.model.Clock;
 import org.junit.Before;
 import org.junit.Test;

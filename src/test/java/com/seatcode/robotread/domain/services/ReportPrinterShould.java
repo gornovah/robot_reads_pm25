@@ -1,6 +1,10 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.domain.services;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.api.ReportFormatter;
+import com.seatcode.robotread.domain.services.ReportPrinter;
+import com.seatcode.robotread.domain.model.Average;
+import com.seatcode.robotread.api.Console;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

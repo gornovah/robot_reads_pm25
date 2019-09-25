@@ -1,6 +1,7 @@
 package com.seatcode.robotread;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.domain.model.Record;
 
 import java.util.LinkedHashMap;
 

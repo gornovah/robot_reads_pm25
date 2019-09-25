@@ -1,9 +1,10 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.api;
 
+import com.seatcode.robotread.domain.model.Average;
 import org.json.simple.JSONObject;
 
 public class ReportFormatter {
-    public String execute(Average average, String value) {
+    public String parseToJson(Average average, String value) {
         JSONObject resultAverageJson = new JSONObject();
         resultAverageJson.put("timestamp", average.getTimestamp());
         JSONObject locationsJson = new JSONObject();

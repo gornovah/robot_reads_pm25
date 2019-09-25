@@ -1,8 +1,15 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.acceptance;
 
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.actions.Robot;
+import com.seatcode.robotread.api.ReportFormatter;
+import com.seatcode.robotread.api.decoder.PolylineDecoder;
+import com.seatcode.robotread.domain.services.ReportPrinter;
 import com.seatcode.robotread.domain.model.Clock;
+import com.seatcode.robotread.domain.model.Record;
+import com.seatcode.robotread.api.Console;
+import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +36,7 @@ public class RobotReadFeature {
     private Clock timestamp;
     private MeasureRepository measureRepository;
     private ReadLevel readLevel;
-    private PolylineRoute polylineRoute;
+    private PolylineDecoder polylineDecoder;
     private Robot robot;
     private LatLng position;
     private int measure;
@@ -49,7 +56,7 @@ public class RobotReadFeature {
         clock = mock(Clock.class);
         measureRepository = new MeasureRepository(map, clock);
         readLevel = mock(ReadLevel.class);
-        polylineRoute = new PolylineRoute(polylineInput);
+        polylineDecoder = new PolylineDecoder(polylineInput);
         position = new LatLng(51.23241, -0.1223);
         measure = 140;
         instant = 1528106219;
@@ -64,7 +71,7 @@ public class RobotReadFeature {
 
         robot = new Robot(readLevel, measureRepository, reportPrinter);
 
-        robot.start(polylineRoute);
+        robot.start(polylineDecoder);
         robot.readPm25Level();
         robot.reportMeasure();
 

@@ -1,4 +1,4 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.domain.model;
 
 import com.google.maps.model.LatLng;
 

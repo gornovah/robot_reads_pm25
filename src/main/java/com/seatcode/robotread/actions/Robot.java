@@ -1,6 +1,11 @@
-package com.seatcode.robotread;
+package com.seatcode.robotread.actions;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.api.decoder.PolylineDecoder;
+import com.seatcode.robotread.domain.services.ReportPrinter;
+import com.seatcode.robotread.domain.model.Average;
+import com.seatcode.robotread.domain.model.Record;
+import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 
 import java.time.Instant;
@@ -19,8 +24,8 @@ public class Robot {
         this.reportPrinter = reportPrinter;
     }
 
-    public void start(PolylineRoute polylineRoute) {
-        move(polylineRoute);
+    public void start(PolylineDecoder polylineDecoder) {
+        move(polylineDecoder);
     }
 
     public void readPm25Level() {
@@ -40,8 +45,8 @@ public class Robot {
         return position;
     }
 
-    private void move(PolylineRoute polylineRoute) {
-        List<LatLng> decodedPolyline = polylineRoute.decode();
+    private void move(PolylineDecoder polylineDecoder) {
+        List<LatLng> decodedPolyline = polylineDecoder.decode();
         for (LatLng latLng : decodedPolyline) {
             position = latLng;
         }
