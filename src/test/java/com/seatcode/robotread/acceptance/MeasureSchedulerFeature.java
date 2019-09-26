@@ -1,6 +1,6 @@
 package com.seatcode.robotread.acceptance;
 
-import com.seatcode.robotread.actions.ReadMeasure;
+import com.seatcode.robotread.actions.RobotSystem;
 import com.seatcode.robotread.domain.services.MeasureScheduler;
 import org.junit.Test;
 
@@ -18,9 +18,9 @@ public class MeasureSchedulerFeature {
     @Test
     public void read_every_100_meter() {
 
-        ReadMeasure readMeasure = mock(ReadMeasure.class);
+        RobotSystem robotSystem = mock(RobotSystem.class);
         ScheduledExecutorService scheduledExecutorService = mock(ScheduledExecutorService.class);
-        MeasureScheduler measureScheduler = new MeasureScheduler(readMeasure, scheduledExecutorService);
+        MeasureScheduler measureScheduler = new MeasureScheduler(robotSystem, scheduledExecutorService);
 
         measureScheduler.scheduledRead();
 
@@ -32,9 +32,9 @@ public class MeasureSchedulerFeature {
 
     @Test
     public void report_every_15_minutes() {
-        ReadMeasure readMeasure = mock(ReadMeasure.class);
+        RobotSystem robotSystem = mock(RobotSystem.class);
         ScheduledExecutorService scheduledExecutorService = mock(ScheduledExecutorService.class);
-        MeasureScheduler measureScheduler = new MeasureScheduler(readMeasure, scheduledExecutorService);
+        MeasureScheduler measureScheduler = new MeasureScheduler(robotSystem, scheduledExecutorService);
 
         measureScheduler.scheduleReport();
 

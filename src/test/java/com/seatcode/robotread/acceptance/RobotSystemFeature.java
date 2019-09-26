@@ -1,13 +1,14 @@
 package com.seatcode.robotread.acceptance;
 
 
-import com.seatcode.robotread.actions.ReadMeasure;
+import com.seatcode.robotread.actions.RobotSystem;
 import com.seatcode.robotread.api.Console;
 import com.seatcode.robotread.api.ReportFormatter;
 import com.seatcode.robotread.api.decoder.PolylineDecoder;
 import com.seatcode.robotread.domain.model.Clock;
 import com.seatcode.robotread.domain.model.Record;
 import com.seatcode.robotread.domain.services.ReportPrinter;
+import com.seatcode.robotread.domain.services.RouteService;
 import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 import org.junit.Before;
@@ -20,7 +21,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class ReadMeasureFeature {
+public class RobotSystemFeature {
 
     private final String polylineInput = "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGu\n" +
             "AD_@FKb@MTUX]Le@^kBVcAVo@Ta@|EaFh@m@FWaA{DCo@q@mCm@cC{A_GWeA}@sGSeAcA_EOSMa\n" +
@@ -36,7 +37,7 @@ public class ReadMeasureFeature {
     private MeasureRepository measureRepository;
     private ReadLevel readLevel;
     private PolylineDecoder polylineDecoder;
-    private ReadMeasure readMeasure;
+    private RobotSystem robotSystem;
     private Console console;
     private ReportFormatter reportFormatter;
     private LinkedHashMap<Long, Record> map;
@@ -61,12 +62,13 @@ public class ReadMeasureFeature {
         given(timestamp.timestampAsString()).willReturn("1528106219");
         given(clock.instantNow()).willReturn(Instant.ofEpochMilli(1528106219));
         given(readLevel.execute()).willReturn(90);
+        RouteService routeService = mock(RouteService.class);
 
-        readMeasure = new ReadMeasure(readLevel, measureRepository, reportPrinter);
+        robotSystem = new RobotSystem(readLevel, measureRepository, reportPrinter, routeService);
 
-        readMeasure.start(polylineDecoder);
-        readMeasure.readPm25Level();
-        readMeasure.reportMeasure();
+        robotSystem.start(polylineDecoder);
+        robotSystem.readPm25Level();
+        robotSystem.reportMeasure();
 
         verify(console).print("{\"level\":\"MODERATE\",\"location\":{\"lng\":-0.16851000000000002,\"lat\":51.56526},\"source\":\"robot\",\"timestamp\":1528106219}");
 
