@@ -1,7 +1,12 @@
 package com.seatcode.robotread.domain.model;
 
 import com.google.maps.model.LatLng;
-
+/**
+ * The entity that represents the record of the polution pm2.5, with the timestamp,
+ * the last location of the read, the level, and the source that is fixed "robot"
+ *
+ * @author despinosa
+ */
 public class Record {
     private final Long id;
     private final long timestamp;
@@ -31,10 +36,6 @@ public class Record {
 
     public Long getId() {
         return id;
-    }
-
-    public String getSource() {
-        return source;
     }
 
 }

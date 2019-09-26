@@ -1,7 +1,11 @@
 package com.seatcode.robotread.infrastructure;
 
 import java.util.Random;
-
+/**
+ * The class that simulate the sensor for read of pm2.5
+ *
+ * @author despinosa
+ */
 public class ReadLevel {
 
     public int execute() {

@@ -2,7 +2,11 @@ package com.seatcode.robotread.api;
 
 import com.seatcode.robotread.domain.model.Average;
 import org.json.simple.JSONObject;
-
+/**
+ * Format the output message to Json format
+ * @author despinosa
+ *
+ */
 public class ReportFormatter {
     public String parseToJson(Average average, String value) {
         JSONObject resultAverageJson = new JSONObject();

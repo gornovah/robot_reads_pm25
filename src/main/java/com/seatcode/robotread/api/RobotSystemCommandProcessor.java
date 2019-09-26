@@ -7,12 +7,16 @@ import com.seatcode.robotread.domain.services.MeasureScheduler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
+/**
+ * Class that executes commands
+ * @author despinosa
+ */
 public class RobotSystemCommandProcessor {
 
     private MeasureScheduler measureScheduler;
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(0);
     private PolylineDecoder polylineDecoder;
+
     /**
      * Proccesor of commands that recive from the input of console
      * @param robotSystem
@@ -23,7 +27,6 @@ public class RobotSystemCommandProcessor {
      *
      * @author despinosa
      */
-
     public void proccessCommands(RobotSystem robotSystem, String polylineInput, String command) throws InterruptedException {
         measureScheduler = new MeasureScheduler(robotSystem, scheduledExecutorService);
         polylineDecoder = new PolylineDecoder(polylineInput);

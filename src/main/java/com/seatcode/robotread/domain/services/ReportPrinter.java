@@ -5,7 +5,12 @@ import com.seatcode.robotread.domain.model.Average;
 import com.seatcode.robotread.api.Console;
 
 import java.util.Arrays;
-
+/**
+ * The report printer is a services from the robot system
+ * with this class you can generate the report and print.
+ *
+ * @author despinosa
+ */
 public class ReportPrinter {
 
     private final Console console;
@@ -22,7 +27,11 @@ public class ReportPrinter {
         String report = reportFormatter.parseToJson(average, value);
         console.print(report);
     }
-
+    /**
+     * The enum range is a aux class to simulate the levels
+     *
+     * @author despinosa
+     */
     private enum Range {
         GOOD(0, 50),
         MODERATE(51, 100),
@@ -46,7 +55,11 @@ public class ReportPrinter {
                     .orElse(OTHER);
         }
     }
-
+    /**
+     * The level pm2.5 calculate from the int level to string
+     *
+     * @author despinosa
+     */
     private class LevelPm25 {
 
         private String fromLevelToRangeValue(int level) {

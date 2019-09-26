@@ -13,7 +13,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
+/**
+ * System from control action of robot parsed from the input received.
+ * @author despinosa
+ *
+ */
 public class RobotSystem {
 
     private LatLng position;
@@ -52,10 +56,6 @@ public class RobotSystem {
     public void reportMeasure() {
         Average average = measureRepository.load();
         reportPrinter.report(average);
-    }
-
-    public LatLng position() {
-        return position;
     }
 
     private long getNextCountValue() {

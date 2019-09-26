@@ -1,7 +1,12 @@
 package com.seatcode.robotread.domain.model;
 
 import com.google.maps.model.LatLng;
-
+/**
+ * The entity that represents the average of the last 15 minutes records, with the timestamp,
+ * the last location of the interval, the level, and the source that is fixed "robot"
+ *
+ * @author despinosa
+ */
 public class Average {
 
     private final long timestamp;

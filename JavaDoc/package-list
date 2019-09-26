@@ -1,0 +1,12 @@
+com.seatcode.robotread
+com.seatcode.robotread.acceptance
+com.seatcode.robotread.actions
+com.seatcode.robotread.api
+com.seatcode.robotread.api.decoder
+com.seatcode.robotread.builder
+com.seatcode.robotread.builder.impl
+com.seatcode.robotread.domain.exceptions
+com.seatcode.robotread.domain.model
+com.seatcode.robotread.domain.services
+com.seatcode.robotread.infrastructure
+com.seatcode.robotread.repository

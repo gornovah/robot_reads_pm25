@@ -9,7 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
+/**
+ * The entity is used to measure every 33 seconds which is the time obtained from the formula t=d/v.
+ * In the same way, it generates a report every 15 minutes.
+ * And the method to stop the scheduler
+ *
+ * @author despinosa
+ */
 public class MeasureScheduler {
     Logger logger = LogManager.getLogger(MeasureScheduler.class);
 

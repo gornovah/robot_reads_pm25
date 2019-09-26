@@ -11,6 +11,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The class that simulate the repository to
+ * save the records, in this case we use a LinkedHashMap
+ * to insert the records in order of reads
+ *
+ * @author despinosa
+ */
 public class MeasureRepository {
 
     private final LinkedHashMap<Long, Record> records;

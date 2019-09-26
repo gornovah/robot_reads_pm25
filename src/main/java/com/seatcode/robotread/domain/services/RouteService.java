@@ -6,7 +6,13 @@ import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 
 import java.util.List;
-
+/**
+ * The route service calculate within the position in route, the position in
+ * the polyline compared with the acumulated distance and the distance
+ * traveled for the robot with a velocity of 3m/s in 100m
+ *
+ * @author despinosa
+ */
 public class RouteService {
 
     public LatLng withinRoute(List<LatLng> decodedPolyline, Double distanceTraveled) {

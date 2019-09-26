@@ -12,7 +12,10 @@ import com.seatcode.robotread.infrastructure.ReadLevel;
 import com.seatcode.robotread.repository.MeasureRepository;
 
 import java.util.LinkedHashMap;
-
+/**
+ * Builder of {@link RobotSystem} instance with the information of the input
+ * @author despinosa
+ */
 public class RobotSystemBuilderImpl implements RobotSystemBuilder {
     @Override
     public RobotSystem build() {
