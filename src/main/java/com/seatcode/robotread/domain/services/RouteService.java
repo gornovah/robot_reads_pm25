@@ -9,8 +9,6 @@ import java.util.List;
 
 public class RouteService {
 
-    private static final int METERS_TO_TAKE_READS = 100;
-
     public LatLng withinRoute(List<LatLng> decodedPolyline, Double distanceTraveled) {
 
         double accumulatedDistance = 0;
@@ -23,14 +21,6 @@ public class RouteService {
             }
         }
         return null;
-    }
-
-    public int totalIterations(List<LatLng> decodedPolyline) {
-        double accumulatedDistance = 0;
-        for (int i = 0; i < decodedPolyline.size() - 1; i++) {
-            accumulatedDistance = getAccumulatedDistance(decodedPolyline, accumulatedDistance, i);
-        }
-        return (int) (accumulatedDistance / METERS_TO_TAKE_READS);
     }
 
     private double getAccumulatedDistance(List<LatLng> decodedPolyline, double accumulatedDistance, int actual) {

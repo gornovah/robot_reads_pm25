@@ -20,7 +20,7 @@ public class RobotSystem {
     private final ReadLevel readLevel;
     private final MeasureRepository measureRepository;
     private final ReportPrinter reportPrinter;
-    public RouteService routeService;
+    private final RouteService routeService;
     private static AtomicLong at = new AtomicLong(0L);
     private List<LatLng> decodedPolyline;
     private Instant startTime;

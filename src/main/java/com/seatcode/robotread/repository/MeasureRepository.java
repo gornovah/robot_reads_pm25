@@ -1,6 +1,7 @@
 package com.seatcode.robotread.repository;
 
 import com.google.maps.model.LatLng;
+import com.seatcode.robotread.domain.exceptions.RobotException;
 import com.seatcode.robotread.domain.model.Average;
 import com.seatcode.robotread.domain.model.Record;
 import com.seatcode.robotread.domain.model.Clock;
@@ -28,7 +29,9 @@ public class MeasureRepository {
     public Average load() {
         Instant instantNow = clock.instantNow();
         Instant fifteenMinutesFromInstantNow = instantNow.minus(15, ChronoUnit.MINUTES);
-
+        if (records.isEmpty()) {
+            throw new RobotException("We haven't load any data. System stopped");
+        }
         List<Map.Entry<Long, Record>> collect = records.entrySet()
                 .stream()
                 .filter(longRecordEntry -> longRecordEntry.getValue().getTimestamp() > fifteenMinutesFromInstantNow.toEpochMilli())

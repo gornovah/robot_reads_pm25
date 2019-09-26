@@ -1,37 +1,96 @@
 package com.seatcode.robotread;
 
 import com.seatcode.robotread.actions.RobotSystem;
-import com.seatcode.robotread.api.Console;
-import com.seatcode.robotread.api.ReportFormatter;
-import com.seatcode.robotread.api.decoder.PolylineDecoder;
-import com.seatcode.robotread.domain.services.RouteService;
-import com.seatcode.robotread.domain.model.Clock;
-import com.seatcode.robotread.domain.model.Record;
-import com.seatcode.robotread.domain.services.MeasureScheduler;
-import com.seatcode.robotread.domain.services.ReportPrinter;
-import com.seatcode.robotread.infrastructure.ReadLevel;
-import com.seatcode.robotread.repository.MeasureRepository;
+import com.seatcode.robotread.api.RobotSystemCommandProcessor;
+import com.seatcode.robotread.builder.RobotSystemBuilder;
+import com.seatcode.robotread.builder.impl.RobotSystemBuilderImpl;
+import com.seatcode.robotread.domain.exceptions.RobotException;
 
-import java.util.LinkedHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
+import java.util.InputMismatchException;
+import java.util.Scanner;
+/**
+ * Main class responsible to handle direct invocations to the services provided.
+ * @author despinosa
+ *
+ */
 public class App {
-    public static void main(String[] args) {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+    private static final String START_ROBOT_SYSTEM = "start_robot_system";
+    private static final String EMPTY = "";
+    private static String polylineInput = EMPTY;
+    private static RobotSystem robotSystem;
 
-        ReportFormatter reportFormatter = new ReportFormatter();
-        Console console = new Console();
-        ReportPrinter reportPrinter = new ReportPrinter(console, reportFormatter);
-        LinkedHashMap<Long, Record> map = new LinkedHashMap<>();
-        Clock clock = new Clock();
-        MeasureRepository measureRepository = new MeasureRepository(map, clock);
-        ReadLevel readLevel = new ReadLevel();
-        RouteService routeService = new RouteService();
-        RobotSystem robotSystem = new RobotSystem(readLevel, measureRepository, reportPrinter, routeService);
-        MeasureScheduler measureScheduler = new MeasureScheduler(robotSystem, scheduledExecutorService);
-        //ctn{Fsy`LmHxG
-        String polylineInput = "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGu\n" +
+    public static void main(String[] args) {
+        Scanner inputValue = new Scanner(System.in);
+        boolean exit = false;
+
+        while (!exit) {
+
+            System.out.println("1. Start");
+            System.out.println("2. Stop");
+            System.out.println("3. Re-Route");
+            System.out.println("4. Print report");
+            System.out.println("5. Exit");
+
+            try {
+
+                System.out.println("Enter one of the options:");
+                int option = inputValue.nextInt();
+
+                switch (option) {
+                    case 1:
+                        builder(START_ROBOT_SYSTEM);
+                        break;
+                    case 2:
+                        builder("stop_robot_sytem");
+                        break;
+                    case 3:
+                        polylineInput = obtainPolyline();
+                        break;
+                    case 4:
+                        builder("report_measure");
+                        break;
+                    case 5:
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Only numbers between 1 and 5");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You must insert a number");
+                inputValue.next();
+            }
+        }
+        System.exit(0);
+
+    }
+
+    private static void builder(String command) {
+
+        if (START_ROBOT_SYSTEM.equals(command)) {
+            RobotSystemBuilder robotSystemBuilder = new RobotSystemBuilderImpl();
+            robotSystem = robotSystemBuilder.build();
+        }
+        RobotSystemCommandProcessor commandProcessor = new RobotSystemCommandProcessor();
+        if (EMPTY.equals(polylineInput)){
+            polylineInput = obtainDefaultPolyline();
+        }
+        try {
+            commandProcessor.proccessCommands(robotSystem, polylineInput, command);
+        } catch (InterruptedException e) {
+            throw new RobotException("Error stop scheduler system");
+        }
+    }
+
+    private static String obtainPolyline() {
+        Scanner inputValue = new Scanner(System.in);
+        System.out.println("Insert new polyline:");
+        String polylineInput = inputValue.nextLine();
+        System.out.println("new polylineInput:" + polylineInput);
+        return polylineInput;
+    }
+
+    private static String obtainDefaultPolyline() {
+        return "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGu\n" +
                 "AD_@FKb@MTUX]Le@^kBVcAVo@Ta@|EaFh@m@FWaA{DCo@q@mCm@cC{A_GWeA}@sGSeAcA_EOSMa\n" +
                 "@}A_GsAwFkAiEoAaFaBoEGo@]_AIWW{AQyAUyBQqAI_BFkEd@aHZcDlAyJLaBPqDDeD?mBEiA}@F]yKWqGSkI\n" +
                 "CmCIeZIuZi@_Sw@{WgAoXS{DOcAWq@KQGIFQDGn@Y`@MJEFIHyAVQVOJGHgFRJBBCCSKBcAKoACyA?m@^y\n" +
@@ -40,16 +99,5 @@ public class App {
                 "a@PyB`@yDDc@e@K{Bi@oA_@w@]m@_@]QkBoAwC{BmAeAo@s@uAoB_AaBmAwCa@mAo@iCgAwFg@iD\n" +
                 "q@}G[uEU_GBuP@cICmA?eI?qCB{FBkCI}BOyCMiAGcAC{AN{YFqD^}FR}CNu@JcAHu@b@_E`@}DVsB^mBTsAQ\n" +
                 "KkCmAg@[YQOIOvAi@[m@e@s@g@GKCKAEJIn@g@GYGIc@ScBoAf@{A`@uAlBfAG`@";
-        PolylineDecoder polylineDecoder = new PolylineDecoder(polylineInput);
-        robotSystem.start(polylineDecoder);
-        measureScheduler.scheduledRead();
-        measureScheduler.scheduleReport();
-
-        int totalIterations = routeService.totalIterations(polylineDecoder.decode());
-        try {
-            measureScheduler.stopScheduledExecutorService(totalIterations);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

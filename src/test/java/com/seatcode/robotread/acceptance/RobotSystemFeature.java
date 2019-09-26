@@ -59,18 +59,17 @@ public class RobotSystemFeature {
     @Test
     public void return_the_report_of_new_readings() {
 
+        RouteService routeService = new RouteService();
         given(timestamp.timestampAsString()).willReturn("1528106219");
         given(clock.instantNow()).willReturn(Instant.ofEpochMilli(1528106219));
         given(readLevel.execute()).willReturn(90);
-        RouteService routeService = mock(RouteService.class);
-
         robotSystem = new RobotSystem(readLevel, measureRepository, reportPrinter, routeService);
 
         robotSystem.start(polylineDecoder);
         robotSystem.readPm25Level();
         robotSystem.reportMeasure();
 
-        verify(console).print("{\"level\":\"MODERATE\",\"location\":{\"lng\":-0.16851000000000002,\"lat\":51.56526},\"source\":\"robot\",\"timestamp\":1528106219}");
+        verify(console).print("{\"level\":\"MODERATE\",\"location\":{\"lng\":-0.21533000000000002,\"lat\":51.504870000000004},\"source\":\"robot\",\"timestamp\":1528106219}");
 
     }
 }
