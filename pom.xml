@@ -20,7 +20,7 @@
         <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <assertj-core.version>3.13.1</assertj-core.version>
         <google-maps-services.version>0.10.0</google-maps-services.version>
         <json-simple.version>1.1.1</json-simple.version>
